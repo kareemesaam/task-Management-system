@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use function Laravel\Prompts\suggest;
 
-class AdminSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,10 +20,8 @@ class AdminSeeder extends Seeder
             'email' => 'admin@convertedin.com'
         ]);
 
-        User::factory(99)->create([
-            'type' => User::ADMIN
-        ]);
-
+        User::factory(99)->create(['type' => User::ADMIN]);
+        User::factory(1000)->create();
 
     }
 }
