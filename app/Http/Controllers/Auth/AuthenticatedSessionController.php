@@ -29,6 +29,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Check if authenticated user is not an admin
+        if (auth()->user()->type !== User::ADMIN) {
+            auth()->logout();
+
+            return back()->withErrors([
+                'email' => 'Access denied. Only admins can log in.',
+            ]);
+        }
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

@@ -20,7 +20,23 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('login', [AuthenticatedSessionController::class, 'stpublic function store(LoginRequest $request)
+{
+    $request->authenticate();
+
+    $request->session()->regenerate();
+
+    // Check if authenticated user is not an admin
+    if (auth()->user()->type !== User::ADMIN) {
+        auth()->logout();
+
+        return back()->withErrors([
+            'email' => 'Access denied. Only admins can log in.',
+        ]);
+    }
+
+    return redirect()->intended(RouteServiceProvider::HOME);
+}ore']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->name('password.request');
