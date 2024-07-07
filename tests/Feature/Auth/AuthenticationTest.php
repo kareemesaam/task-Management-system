@@ -33,7 +33,7 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory(['type' => User::ADMIN])->create();
 
         $this->post('/login', [
             'email' => $user->email,
@@ -45,7 +45,7 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_logout(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory(['type' => User::ADMIN])->create();
 
         $response = $this->actingAs($user)->post('/logout');
 
