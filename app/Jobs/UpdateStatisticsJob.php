@@ -29,10 +29,14 @@ class UpdateStatisticsJob implements ShouldQueue
     {
         // create or update statistics for the user
 
-        $statistics = Statistics::updateOrCreate(
-            ['user_id' => $this->userId],
-            ['task_count' => DB::raw('task_count + 1')]
-        );
+//        $statistics = Statistics::updateOrCreate(
+//            ['user_id' => $this->userId],
+//            ['task_count' => DB::raw('task_count + 1')]
+//        );
+
+        // increment task_count by 1
+        $statistic = Statistics::firstOrNew(['user_id' => $this->userId]);
+        $statistic->increment('task_count', 1);
 
 
 
