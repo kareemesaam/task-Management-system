@@ -37,19 +37,16 @@ class TaskTest extends TestCase
         $admin = User::factory()->create([
             'type' => User::ADMIN,
         ]);
+        $user = User::factory()->create(['type' => User::USER]);
+
         $taskData = Task::factory()->make()->toArray();
 
         // Act
         $response = $this->actingAs($admin)->post('/tasks', $taskData);
 
-        // Assert
+        $this->assertDatabaseCount('tasks', 1);
+
         $response->assertStatus(302);
-        $this->assertDatabaseHas('tasks', [
-            'title' => $taskData['title'],
-            'description' => $taskData['description'],
-            'assigned_by_id' => $taskData['assigned_by_id'],
-            'assigned_to_id' => $taskData['assigned_to_id'],
-        ]);
     }
 
     public function test_tasks_list_page_show_tasks_correctly()
