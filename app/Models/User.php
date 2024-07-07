@@ -43,4 +43,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assigned_to_id');
+    }
+
+    public function scopeAdmin($query)
+    {
+        $query->where('type', '=', User::ADMIN);
+    }
+    public function scopeUser( $query)
+    {
+        $query->where('type', '=', User::USER);
+    }
+
+
+
+
 }
